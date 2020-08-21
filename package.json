@@ -1,0 +1,26 @@
+{
+  "name": "nackademin-todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pajo1902/nackademin-todo-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pajo1902/nackademin-todo-app/issues"
+  },
+  "homepage": "https://github.com/pajo1902/nackademin-todo-app#readme",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "nedb-promises": "^4.0.4",
+    "nodemon": "^2.0.4"
+  }
+}
