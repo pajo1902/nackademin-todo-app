@@ -1,45 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const todoController = require('../controllers/todoController.js');
 
-const db = require('../database/dbSetup');
+// const db = require('../database/dbSetup');
 
 //hämta alla items
-router.get('/all', async(req, res) => {
-    let results = await db.find({});
-    res.json(results);
-});
+router.get('/all', todoController.getAll);
+
+//hämta ett item
+router.get('/:id', todoController.get);
 
 //skapa ett nytt item
-router.post('/create', async( req, res) => {
-    var item = {  
-        title: req.body.title, content: req.body.content, done: req.body.done
-    };
-
-    let x = await db.insert(item);
-       
-    res.json(x);
-});
+router.post('/create', todoController.post);
 
 //ta bort ett item
-router.delete('/delete/:id', async( req, res) => {
-    var item = {  
-        _id: req.params.id
-    };
-
-    await db.remove(item);
-       
-    res.send('The item has been deleted');
-});
+router.delete('/remove/:id', todoController.remove);
 
 //uppdatera ett item
-router.put('/update/:id', async( req, res) => {
-    let updatedItem = {  
-        title: req.body.title, content: req.body.content, done: req.body.done
-    };
-    await db.update({ _id: req.params.id }, updatedItem);
-    
-    let results = await db.findOne({ _id: req.params.id });
-    res.json(results);
-});
+router.put('/update/:id', todoController.put);
 
 module.exports = router;
