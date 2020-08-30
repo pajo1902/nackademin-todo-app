@@ -1,8 +1,10 @@
 const Datastore = require('nedb-promises');
-let db = Datastore.create('database/items');;
+let db = {};
+db.items = Datastore.create('database/items');;
+db.users = Datastore.create('database/users');;
 // db.items = Datastore.create('database/items');
-// db.comments = Datastore.create('database/comments')
-db.load();
+db.items.load();
+db.users.load();
 // db.comments.load()
 
 module.exports = db;

@@ -1,10 +1,51 @@
 // const express = require('express');
-const models = require('../models/todoModel.js');
+const todoModel = require('../models/todoModel.js');
+const userModel = require('../models/userModel.js');
+const jwt = require('jsonwebtoken');
+const secret = process.env.secret
+// const secret = 'hemligt';
 
+//registrera ny användare
+async function register(req, res) {
+    let data = req.body;
+    console.log('data från controllern: ', data)
 
-//hämta alla items
+    try {
+        let result = await userModel.register({ data });
+        console.log('result inne i controllern:', result)
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).json(err);
+        console.log('HÄÄÄÄR')
+    }
+}
+
+//logga in användaren
+async function login(req, res) {
+    const login = req.body;
+    const payload = await userModel.getUser(req.body.username);
+    console.log('payloaden ifrån controllern: ', payload)
+
+    const token = jwt.sign(payload, secret, { expiresIn: '30d' });
+    console.log('TOKEN: ', token);
+
+    try {
+        const result = await userModel.login({ login });
+        console.log('results vid inloggning: ', result)
+        res.status(200).json({
+            message: 'Success',
+            token: token,
+            data: result
+        })
+    } catch (err) {
+        res.status(500).json(err);
+        console.log('gick åt pipan!')
+    }
+}
+
+//hämta alla todos
 async function getAll(req, res) {
-    let todoItems = await models.getAllTodoItems()
+    let todoItems = await todoModel.getAllTodoItems()
     try {
         if (todoItems) {
             console.log(todoItems)
@@ -17,10 +58,10 @@ async function getAll(req, res) {
     }
 }
 
-//hämta en item
+//hämta en todo
 async function get(req, res) {
     try {
-        let todoItem = await models.getOneTodoItem(req.params.id)
+        let todoItem = await todoModel.getOneTodoItem(req.params.id)
 
         if (todoItem) {
             console.log(todoItem)
@@ -33,7 +74,7 @@ async function get(req, res) {
     }
 }
 
-//skapa ett nytt item
+//skapa en ny todo
 async function post(req, res) {
     if (req.body.hasOwnProperty('title') &&
         req.body.hasOwnProperty('content') &&
@@ -47,7 +88,7 @@ async function post(req, res) {
         console.log('Den nya skapade todoItemet: ', todoItem)
 
         try {
-            let result = await models.postTodoItem(todoItem);
+            let result = await todoModel.postTodoItem(todoItem);
             res.status(200).json(result);
         } catch (err) {
             res.status(500).send('Internal Server Error');
@@ -58,10 +99,10 @@ async function post(req, res) {
     }
 }
 
-//ta bort ett item
+//ta bort en todo
 async function remove(req, res) {
     let todoItem = req.params.id
-    let deletedItem = await models.removeTodoItem(todoItem);
+    let deletedItem = await todoModel.removeTodoItem(todoItem);
 
     if (deletedItem === 0) {
         res.status(404).send('Not Found')
@@ -72,13 +113,13 @@ async function remove(req, res) {
     }
 }
 
-//uppdatera ett item
+//uppdatera en todo
 async function put(req, res) {
-    let result = await models.updateTodoItem(req.params.id, req.body)
+    let result = await todoModel.updateTodoItem(req.params.id, req.body)
     
     res.send('Du har uppdaterat ett item ' + result);
 }
 
 module.exports = {
-    post, getAll, get, remove, put
+    post, getAll, get, remove, put, register, login
 }
