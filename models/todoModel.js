@@ -1,9 +1,10 @@
 const db = require('../database/dbSetup');
 
 //hämta alla
-async function getAllTodoItems() {
-    let result = await db.items.find({});
-    console.log(result);
+async function getAllTodoItems(id) {
+    // console.log('ID: ', id)
+    let result = await db.items.find({ createdBy: id });
+    console.log('Results: ', result);
     return result;
 }
 

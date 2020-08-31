@@ -45,7 +45,9 @@ async function login(req, res) {
 
 //hämta alla todos
 async function getAll(req, res) {
-    let todoItems = await todoModel.getAllTodoItems()
+    let user = req.user._id;
+    // console.log('USER: ', user)
+    let todoItems = await todoModel.getAllTodoItems(user)
     try {
         if (todoItems) {
             console.log(todoItems)
@@ -83,6 +85,9 @@ async function post(req, res) {
         typeof req.body.content === 'string',
         typeof req.body.done === 'string' // && typeof req.body.done == bolean
     ) {
+        req.body.createdBy = req.user._id;
+        console.log(req.body);
+        // console.log('USSSEEER: ', user);
         let todoItem = req.body
 
         console.log('Den nya skapade todoItemet: ', todoItem)

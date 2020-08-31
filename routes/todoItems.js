@@ -6,18 +6,18 @@ const {authMiddleware, admin, writer} = require('../middlewares/auth');
 //TODOS
 
 //hämta alla todos
-router.get('/all', authMiddleware, todoController.getAll);
+router.get('/', authMiddleware, todoController.getAll);
 
 //hämta en todo
 router.get('/:id', authMiddleware, todoController.get);
 
 //skapa en ny todo
-router.post('/create', authMiddleware, todoController.post);
+router.post('/', authMiddleware, todoController.post);
 
 //ta bort en todo
-router.delete('/remove/:id', authMiddleware, admin, todoController.remove);
+router.delete('/:id', authMiddleware, admin, todoController.remove);
 
 //uppdatera en todo
-router.put('/update/:id', authMiddleware, writer, todoController.put);
+router.put('/:id', authMiddleware, writer, todoController.put);
 
 module.exports = router;
