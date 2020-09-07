@@ -18,6 +18,11 @@ async function postTodoItem(todoItem) {
     return await db.items.insert(todoItem);
 }
 
+//skapa en lista
+async function postTodoList(todoList) {
+    return await db.lists.insert(todoList);
+}
+
 //ta bort en todo
 async function removeTodoItem(id) {
     console.log('TODOITEM:', id)
@@ -31,6 +36,11 @@ async function updateTodoItem(id, todoItem) {
     return await db.items.update( {_id: id}, { $set: { title, content, done }});
 }
 
+async function clearTestItems() {
+    const doc = await db.todoTests.remove({}, { multi: true });
+    return doc;
+}
+
 module.exports = {
-    getAllTodoItems, getOneTodoItem, postTodoItem, removeTodoItem, updateTodoItem
+    getAllTodoItems, getOneTodoItem, postTodoItem, removeTodoItem, updateTodoItem, postTodoList, clearTestItems
 }

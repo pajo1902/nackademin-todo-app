@@ -5,44 +5,6 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.secret
 // const secret = 'hemligt';
 
-//registrera ny användare
-async function register(req, res) {
-    let data = req.body;
-    console.log('data från controllern: ', data)
-
-    try {
-        let result = await userModel.register({ data });
-        console.log('result inne i controllern:', result)
-        res.status(200).json(result);
-    } catch (err) {
-        res.status(500).json(err);
-        console.log('HÄÄÄÄR')
-    }
-}
-
-//logga in användaren
-async function login(req, res) {
-    const login = req.body;
-    const payload = await userModel.getUser(req.body.username);
-    console.log('payloaden ifrån controllern: ', payload)
-
-    const token = jwt.sign(payload, secret, { expiresIn: '30d' });
-    console.log('TOKEN: ', token);
-
-    try {
-        const result = await userModel.login({ login });
-        console.log('results vid inloggning: ', result)
-        res.status(200).json({
-            message: 'Success',
-            token: token,
-            data: result
-        })
-    } catch (err) {
-        res.status(500).json(err);
-        console.log('gick åt pipan!')
-    }
-}
-
 //hämta alla todos
 async function getAll(req, res) {
     let user = req.user._id;
@@ -81,9 +43,13 @@ async function post(req, res) {
     if (req.body.hasOwnProperty('title') &&
         req.body.hasOwnProperty('content') &&
         req.body.hasOwnProperty('done') &&
-        typeof req.body.title === 'string' &&
+        req.body.hasOwnProperty('urgent') &&
+        req.body.hasOwnProperty('listId') &&
+        typeof req.body.title === 'string',
         typeof req.body.content === 'string',
-        typeof req.body.done === 'string' // && typeof req.body.done == bolean
+        typeof req.body.done === 'string', // && typeof req.body.done == bolean
+        typeof req.body.urgent === 'string', // && typeof req.body.urgent == bolean
+        typeof req.body.listId === 'string' // && typeof req.body.urgent == bolean
     ) {
         req.body.createdBy = req.user._id;
         console.log(req.body);
@@ -99,8 +65,24 @@ async function post(req, res) {
             res.status(500).send('Internal Server Error');
         }
     } else {
-        res.status(400).send('Bad Request')
+        res.status(400).send('Bad Request, need to specify title, content, done, urgent, listId')
 
+    }
+}
+
+//skapa en ny lista
+async function postList(req, res) {
+    req.body.createdBy = req.user._id;
+    console.log(req.body);
+    let todoList = req.body;
+
+    console.log('Den nya skapade todoListan: ', todoList)
+
+    try {
+        let result = await todoModel.postTodoList(todoList);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).send('Internal Server Error');
     }
 }
 
@@ -126,5 +108,5 @@ async function put(req, res) {
 }
 
 module.exports = {
-    post, getAll, get, remove, put, register, login
+    post, getAll, get, remove, put, postList
 }
