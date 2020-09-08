@@ -1,19 +1,21 @@
+const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config()
 const express = require('express');
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(cors()); //detta aktiverar middleware som sätter headers
 
 //routes
-const todoLists = require('./routes/todoLists');
-const todoItems = require('./routes/todoItems');
-const todoUsers = require('./routes/todoUsers');
+const listRoute = require('./routes/listRoute');
+const todoRoute = require('./routes/todoRoute');
+const userRoute = require('./routes/userRoute');
 
-app.use('/lists', todoLists);
-app.use('/items', todoItems);
-app.use('/users', todoUsers);
+app.use('/lists', listRoute);
+app.use('/todos', todoRoute);
+app.use('/users', userRoute);
 
 module.exports = app;

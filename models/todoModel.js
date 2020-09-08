@@ -1,3 +1,9 @@
+//Modellen:
+//Database logic for creating a resource etc.
+//May return some data about the operation
+//or throw an exception if an error occurs
+//Do not use res or req
+
 const db = require('../database/dbSetup');
 
 //hämta alla
@@ -10,7 +16,7 @@ async function getAllTodoItems(id) {
 
 //hämta en todo
 async function getOneTodoItem(id) {
-    return await db.items.findOne({ _id: id })
+    return await db.items.findOne({ _id: id });
 }
 
 //skapa en todo
@@ -29,7 +35,7 @@ async function removeTodoItem(id) {
     return await db.items.remove({_id: id});
 }
 
-//tanken är att alla modeller ska ha lite mer logik som denna inom en snar framtid. istället för att ha det i controllern
+//uppdatera en todo
 async function updateTodoItem(id, todoItem) {
     const { title, content, done } = todoItem;
 

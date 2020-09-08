@@ -1,55 +1,56 @@
 const chai = require("chai");
 chai.should();
 
-const User = require("../../models/userModel");
-const Todo = require("../../models/todoModel");
-// const Comment = require("../../models/comments");
+const userModel = require("../../models/userModel");
+const todoModel = require("../../models/todoModel");
 
 describe("userModel", () => {
-  beforeEach(() => {
-    User.clearTestUsers();
-  });
-  // Insert user
-  it("Should insert a new user with username, password and role", async () => {
-    const result = await User.register("patrik", "pass", "writer");
-    console.log('ny användare: ', result);
-    result.should.deep.equal({
-      _id: result._id,
-      username: "patrik",
-      password: result.password,
-      role: "writer",
-    });
-    result.should.be.an("object");
+  beforeEach( async () => {
+    // await userModel.clearTestUsers();
+    const user = await userModel.register("kurt", "pass", "writer");
+    // console.log("user:", user);
+    this.currentTest.userId = user._id;
+    this.currentTest.password = user.password;
+    this.currentTest.user = user;
   });
   
+  it("Check if user object has correct keys", async () => {
+    await this.test.user.should.deep.equal({
+      username: "kurt",
+      password: this.test.password,
+      role: "writer",
+      _id: this.test.userId
+    });
+    this.test.user.should.be.an("object");
+  });
 });
 
-describe("todoModel", () => {
-    beforeEach(() => {
-        Todo.clearTestItems();
-    });
-    // Inserts post
-    it("Should insert a post with title, content, userId and _id", async () => {
-        const user = await User.register("patrik", "pass", "writer");
-        const result = await Todo.postTodoItem(
-        "Nya titeln", //title:
-        "Ny content", //content:
-      );
+// describe("todoModel", () => {
+//     beforeEach(() => {
+//         todoModel.clearTestItems();
+//     });
+//     // Inserts post
+//     it("Should insert a post with title, content, userId and _id", async () => {
+//         const user = await userModel.register("patrik", "pass", "writer");
+//         const result = await todoModel.postTodoItem(
+//         "Nya titeln", //title:
+//         "Ny content", //content:
+//       );
   
-      result.should.be.an("object");
-    });
+//       result.should.be.an("object");
+//     });
   
-    //isOwner of post
-    it("Should check if user is owner of the post and return true/false", async () => {
-        const user = await User.register("patrik", "pass", "writer");
+//     //isOwner of post
+//     it("Should check if user is owner of the post and return true/false", async () => {
+//         const user = await userModel.register("patrik", "pass", "writer");
   
-        const createItem = await Todo.postTodoItem(
-            "Nya titeln",
-            "Ny content",
-        user._id
-      );
+//         const createItem = await todoModel.postTodoItem(
+//             "Nya titeln",
+//             "Ny content",
+//         user._id
+//       );
   
-      const result = await Todo.isOwner(createItem._id, user._id);
-      result.should.be.equal(true);
-    })
-});
+//       const result = await todoModel.isOwner(createItem._id, user._id);
+//       result.should.be.equal(true);
+//     })
+// });

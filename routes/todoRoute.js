@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/todoController.js');
-const {authMiddleware, admin, writer} = require('../middlewares/auth');
-
-//TODOS
+const { authMiddleware, admin, writer } = require('../middlewares/auth');
 
 //hämta alla todos
 router.get('/', authMiddleware, todoController.getAll);

@@ -19,7 +19,6 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-
 const writer = (req, res, next) => {
     console.log('ROLLEN: ', req.user.role)
     if (req.user.role == 'admin' || req.user.role == 'writer') {

@@ -1,4 +1,8 @@
-// const express = require('express');
+//Controllern:
+//Logic for handling request
+//Interaction with Models
+//Logic for sending a response(res)
+
 const todoModel = require('../models/todoModel.js');
 const userModel = require('../models/userModel.js');
 const jwt = require('jsonwebtoken');
@@ -9,14 +13,16 @@ const secret = process.env.secret
 async function getAll(req, res) {
     let user = req.user._id;
     // console.log('USER: ', user)
-    let todoItems = await todoModel.getAllTodoItems(user)
+    
     try {
-        if (todoItems) {
-            console.log(todoItems)
-            res.status(200).json(todoItems)
-        } else {
-            res.status(404).send('Not Found')
-        }
+        let todoItems = await todoModel.getAllTodoItems(user)
+        res.status(200).json(todoItems)
+        // if (todoItems) {
+        //     console.log(todoItems)
+        //     res.status(200).json(todoItems)
+        // } else {
+        //     res.status(404).send('Not Found')
+        // }
     } catch (err) {
         res.status(500).json(err)
     }
@@ -25,7 +31,7 @@ async function getAll(req, res) {
 //hämta en todo
 async function get(req, res) {
     try {
-        let todoItem = await todoModel.getOneTodoItem(req.params.id)
+        let todoItem = await todoModel.getOneTodoItem()
 
         if (todoItem) {
             console.log(todoItem)
@@ -47,13 +53,12 @@ async function post(req, res) {
         req.body.hasOwnProperty('listId') &&
         typeof req.body.title === 'string',
         typeof req.body.content === 'string',
-        typeof req.body.done === 'string', // && typeof req.body.done == bolean
-        typeof req.body.urgent === 'string', // && typeof req.body.urgent == bolean
-        typeof req.body.listId === 'string' // && typeof req.body.urgent == bolean
+        typeof req.body.done === Boolean,
+        typeof req.body.urgent === Boolean,
+        typeof req.body.listId === 'string' 
     ) {
         req.body.createdBy = req.user._id;
         console.log(req.body);
-        // console.log('USSSEEER: ', user);
         let todoItem = req.body
 
         console.log('Den nya skapade todoItemet: ', todoItem)
@@ -88,15 +93,15 @@ async function postList(req, res) {
 
 //ta bort en todo
 async function remove(req, res) {
-    let todoItem = req.params.id
+    let todoItem = req.params.id;
     let deletedItem = await todoModel.removeTodoItem(todoItem);
 
     if (deletedItem === 0) {
         res.status(404).send('Not Found')
     } else if (deletedItem === 1) {
-        res.status(200).send('OK')
+        res.status(200).send('OK');
     } else {
-        res.status(500).send('Something went really bad man!')
+        res.status(500).send('Something went really bad man!');
     }
 }
 
