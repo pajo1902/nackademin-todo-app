@@ -43,8 +43,7 @@ async function updateTodoItem(id, todoItem) {
 }
 
 async function clearTestItems() {
-    const doc = await db.todoTests.remove({}, { multi: true });
-    return doc;
+    return await db.items.remove({}, { multi: true });
 }
 
 module.exports = {

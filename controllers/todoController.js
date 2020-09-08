@@ -57,14 +57,29 @@ async function post(req, res) {
         typeof req.body.urgent === Boolean,
         typeof req.body.listId === 'string' 
     ) {
-        req.body.createdBy = req.user._id;
-        console.log(req.body);
-        let todoItem = req.body
+        // req.body.createdBy = req.user._id;
+        // let todoItem = req.body
 
-        console.log('Den nya skapade todoItemet: ', todoItem)
+        // console.log('Den nya skapade todoItemet: ', todoItem)
 
         try {
-            let result = await todoModel.postTodoItem(todoItem);
+            // const title = req.body.title;
+            // const content = req.body.content;
+            // const done = req.body.done;
+            // const urgent = req.body.urgent;
+            // const listId = req.body.listId;
+            // const createdBy = req.body.createdBy;
+
+            const todoItem = {
+                title: req.body.title, 
+                content: req.body.content,
+                done: req.body.done, 
+                urgent: req.body.urgent,
+                listId: req.body.listId,
+                createdBy: req.user._id 
+            }
+
+            const result = await todoModel.postTodoItem(todoItem);
             res.status(200).json(result);
         } catch (err) {
             res.status(500).send('Internal Server Error');

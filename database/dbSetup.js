@@ -25,6 +25,7 @@ switch (process.env.ENVIRONMENT) {
     db.items.load();
     db.users.load();
 
+    //för att rensa hela testdatabasen inför testen
     // db.items.remove({});
     // db.users.remove({});
 

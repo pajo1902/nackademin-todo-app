@@ -58,8 +58,7 @@ async function getUser(data) {
 }
 
 async function clearTestUsers() {
-    const doc = await db.userTests.remove({}, { multi: true });
-    return doc;
+    return await db.users.remove({}, { multi: true });
 }
 
 module.exports = {

@@ -5,16 +5,17 @@ const userModel = require("../../models/userModel");
 const todoModel = require("../../models/todoModel");
 
 describe("userModel", () => {
-  beforeEach( async () => {
+  beforeEach(async function() {
     // await userModel.clearTestUsers();
     const user = await userModel.register("kurt", "pass", "writer");
     // console.log("user:", user);
     this.currentTest.userId = user._id;
     this.currentTest.password = user.password;
     this.currentTest.user = user;
+    // console.log(this.test.userId);
   });
   
-  it("Check if user object has correct keys", async () => {
+  it("Check if user object has correct keys", async function() {
     await this.test.user.should.deep.equal({
       username: "kurt",
       password: this.test.password,
