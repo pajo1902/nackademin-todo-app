@@ -29,10 +29,15 @@ async function postTodoList(todoList) {
     return await db.lists.insert(todoList);
 }
 
+//hämta en användares listor
+async function getAllTodoLists(userId) {
+    return await db.lists.find({ createdBy: userId}, { multi: true });
+}
+
 //ta bort en todo
-async function removeTodoItem(id) {
-    console.log('TODOITEM:', id)
-    return await db.items.remove({_id: id});
+async function removeTodoItem(par) {
+    console.log('removed: ', par)
+    return await db.items.remove(par, { multi: true });
 }
 
 //uppdatera en todo
@@ -42,10 +47,11 @@ async function updateTodoItem(id, todoItem) {
     return await db.items.update( {_id: id}, { $set: { title, content, done }});
 }
 
+//rensa test todo items
 async function clearTestItems() {
     return await db.items.remove({}, { multi: true });
 }
 
 module.exports = {
-    getAllTodoItems, getOneTodoItem, postTodoItem, removeTodoItem, updateTodoItem, postTodoList, clearTestItems
+    getAllTodoItems, getOneTodoItem, postTodoItem, removeTodoItem, updateTodoItem, postTodoList, clearTestItems, getAllTodoLists
 }

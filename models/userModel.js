@@ -48,13 +48,16 @@ async function login(data) {
     }
 }
 
-async function getUser(data) {
-    console.log('data ifrån modellen: ' + data);
-    let username = data;
-  
-    return await db.users.findOne({ username });
+async function getUser(id) {
+    // console.log('data ifrån modellen: ' + data);
+    return await db.users.findOne({ _id: id });
 
     // return username;
+}
+
+async function removeUser(id) {
+    console.log('Removed User from model: ', id);
+    return await db.users.remove({ _id: id });   
 }
 
 async function clearTestUsers() {
@@ -62,5 +65,5 @@ async function clearTestUsers() {
 }
 
 module.exports = {
-    register, login, getUser, clearTestUsers
+    register, login, getUser, clearTestUsers, removeUser
 };

@@ -1,16 +1,3 @@
-{"title":"en liten todo","content":"innehåll och sånt","done":false,"urgent":false,"listId":"EpDqHRt6E28PKNJc","createdBy":"zUR1oHKlpaafDZRu","_id":"2lkrw3kInPfABRbv"}
-{"title":"en todo 2","content":"innehåll och sånt","done":"false","urgent":"false","listId":"EpDqHRt6E28PKNJc","createdBy":"114r9ku5V9MdldcG","_id":"5JNIaXfd0mLWrzHC"}
-{"title":"en liten todo 2","content":"innehåll och sånt","done":false,"urgent":false,"listId":"EpDqHRt6E28PKNJc","_id":"5XXhkvqVbB7u0k68"}
-{"title":"en liten todo 2","content":"innehåll och sånt","done":false,"urgent":false,"listId":"EpDqHRt6E28PKNJc","createdBy":"zUR1oHKlpaafDZRu","_id":"6FCZsdFc5adZQYHN"}
-{"title":"ny post 5","content":"tjohej","done":"true","_id":"8D10UknxJY5n9It3"}
-{"title":"ny post 2","content":"tralalla","done":"false","_id":"B1gYT7b9kjn69ZzE"}
-{"title":"ny post 8","content":"tjohej","done":"true","createdBy":"d06DR6V2WM7OWBet","_id":"DP1kxCv3BLVDtmPB"}
-{"title":"ny post 9","content":"tjohej","done":"true","createdBy":"d06DR6V2WM7OWBet","_id":"KE3ZD8YfmgiKY59K"}
-{"title":"ny post 7","content":"tjohej","done":"true","createdBy":"d06DR6V2WM7OWBet","_id":"TLajYCjWIzbhMBui"}
-{"title":"ny post 4","content":"tralalla","done":"false","_id":"UH6fkTZed7FrngC7"}
-{"title":"ny post 5","content":"tjohej","done":"true","_id":"X5V5SNnvECrLKyrj"}
-{"title":"ny post 7","content":"tjohej","done":"true","user":"d06DR6V2WM7OWBet","_id":"cxtMma5xQolkcmOy"}
-{"title":"ny post 7","content":"tjohej","done":"true","user":{"username":"kevin","password":"$2a$10$QQrzt9ITQw6HG/pzVk1usOVnpUpahX44hByWTRpZ0AMVlxnWV/YGe","role":"writer","_id":"d06DR6V2WM7OWBet","iat":1598863199,"exp":1601455199},"_id":"iXX6L33XaGwwEk5y"}
-{"title":"ny post 6","content":"tjohej","done":"true","_id":"j3XwtFk3gWhXM3Pk"}
-{"title":"en todo","content":"innehåll","done":"false","urgent":"false","listId":"R9l0uJuGGRRolPwC","createdBy":"114r9ku5V9MdldcG","_id":"jTTaQJ5u3Oho7PHA"}
-{"title":"en ny todo","content":"lite innehåll och sånt","done":"false","urgent":"false","createdBy":"114r9ku5V9MdldcG","_id":"voABfPBeRgFrbLGR"}
+{"title":"en titel2","content":"innehåll","done":false,"urgent":false,"listId":"agasdgadsg","createdBy":"SnT7YIJNAUeSQ3tE","_id":"IkeTO4dSxS1mH5R6"}
+{"title":"en titel1","content":"innehåll","done":false,"urgent":false,"listId":"agasdgadsg","createdBy":"SnT7YIJNAUeSQ3tE","_id":"Ix1KSahoTPCJtohW"}
+{"title":"en titel3","content":"innehåll","done":false,"urgent":false,"listId":"agasdgadsg","createdBy":"SnT7YIJNAUeSQ3tE","_id":"YarM46Pn5hCRV0BY"}

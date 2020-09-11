@@ -106,10 +106,42 @@ async function postList(req, res) {
     }
 }
 
+// async function get(req, res) {
+//     try {
+//         const todoItem = await todoModel.getOneTodoItem()
+
+//         if (todoItem) {
+//             console.log(todoItem)
+//             res.status(200).json(todoItem)
+//         } else {
+//             res.status(404).send('Not Found!')
+//         }
+//     } catch (err) {
+//         res.status(500).json(err)
+//     }
+// }
+
+//hämta alla listor
+async function getAllLists(req, res) {
+    try {
+        const userId = req.params.id;
+        const todoList = await todoModel.getAllTodoLists(userId);
+
+        if (todoList) {
+            console.log(todoList)
+            res.status(200).json(todoList)
+        } else {
+            res.status(404).send('Not Found!')
+        }
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
 //ta bort en todo
 async function remove(req, res) {
     let todoItem = req.params.id;
-    let deletedItem = await todoModel.removeTodoItem(todoItem);
+    let deletedItem = await todoModel.removeTodoItem({_id: todoItem});
 
     if (deletedItem === 0) {
         res.status(404).send('Not Found')
@@ -128,5 +160,5 @@ async function put(req, res) {
 }
 
 module.exports = {
-    post, getAll, get, remove, put, postList
+    post, getAll, get, remove, put, postList, getAllLists
 }

@@ -17,5 +17,6 @@ const userRoute = require('./routes/userRoute');
 app.use('/lists', listRoute);
 app.use('/todos', todoRoute);
 app.use('/users', userRoute);
+app.use('/privacypolicy', userRoute);
 
 module.exports = app;

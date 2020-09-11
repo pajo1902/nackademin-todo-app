@@ -4,6 +4,7 @@
 //Login for sending a response(res)
 
 const userModel = require('../models/userModel.js');
+const todoModel = require('../models/todoModel.js');
 
 //registrera ny användare
 async function register(req, res) {
@@ -39,6 +40,46 @@ async function login(req, res) {
     }
 }
 
+//ta bort användare
+async function remove(req, res) {
+
+    const userId = req.params.id;
+    const deletedUser = await userModel.removeUser(userId);
+    const deletedTodo = await todoModel.removeTodoItem({createdBy: userId });
+
+    if (deletedUser === 0) {
+        res.status(404).send('The user didnt exist!');
+    } else if (deletedTodo  === 0) {
+        res.status(200).send('The user was deleted but there werent any todos');
+    } else if (deletedTodo > 0) { 
+        res.status(200).send('The user was deleted and all your todos');            
+    } else {
+        res.status(500).send('Something went really bad man!');
+        console.log("deleteUser: ", deletedUser);
+        console.log("deleteTodo: ", deletedTodo);
+    }
+}
+
+//hämta en användares all data inklusive todos, listor och användaruppgifter
+async function getAllUserContent(req, res) {
+    try {
+        const userId = req.params.id;
+        const userData = await userModel.getUser(userId);
+        const todoLists = await todoModel.getAllTodoLists(userId);
+        const todoItems = await todoModel.getAllTodoItems(userId);
+        console.log("userdata: ", userData);
+        if (userData) {
+            res.status(200).send({ 
+                userData, todoLists, todoItems
+            });
+        } else {
+            console.log('fan nåt gick åt skogen!');
+        }
+    } catch (err) {
+        res.status(403).json(err);
+    }
+}
+
 module.exports = {
-    register, login
+    register, login, remove, getAllUserContent
 }
