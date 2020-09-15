@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs');
 const secret = process.env.secret;
 const jwt = require('jsonwebtoken');
 
+//registrera en användare
 async function register(username, password, role) {
     const salt = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(password, salt)
@@ -20,16 +21,19 @@ async function register(username, password, role) {
     return db.users.insert(user);
 }
 
+//logga in användaren
 async function login(data) {
+
     let user = await db.users.findOne({ username: data.login.username });
+
     if (!user) {
         return {message: 'No user'}
     }
-    console.log('usern som hittas ifrån databasen: ', user);
+    // console.log('usern som hittas ifrån databasen: ', user);
 
     let passwordAttempt = data.login.password;
     const success = bcrypt.compareSync(passwordAttempt, user.password);
-    console.log('success ifrån modellen: ', success);
+    // console.log('success ifrån modellen: ', success);
 
     if (success) {
         const payload = {
@@ -48,6 +52,7 @@ async function login(data) {
     }
 }
 
+//hämta en användare
 async function getUser(id) {
     // console.log('data ifrån modellen: ' + data);
     return await db.users.findOne({ _id: id });
@@ -55,11 +60,13 @@ async function getUser(id) {
     // return username;
 }
 
+//ta bort en användare
 async function removeUser(id) {
-    console.log('Removed User from model: ', id);
+    // console.log('Removed User from model: ', id);
     return await db.users.remove({ _id: id });   
 }
 
+//ta bort alla test-användare
 async function clearTestUsers() {
     return await db.users.remove({}, { multi: true });
 }

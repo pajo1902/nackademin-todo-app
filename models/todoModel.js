@@ -10,7 +10,7 @@ const db = require('../database/dbSetup');
 async function getAllTodoItems(id) {
     // console.log('ID: ', id)
     let result = await db.items.find({ createdBy: id });
-    console.log('Results: ', result);
+    // console.log('Results: ', result);
     return result;
 }
 
@@ -36,7 +36,7 @@ async function getAllTodoLists(userId) {
 
 //ta bort en todo
 async function removeTodoItem(par) {
-    console.log('removed: ', par)
+    // console.log('removed: ', par)
     return await db.items.remove(par, { multi: true });
 }
 

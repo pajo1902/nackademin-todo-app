@@ -30,8 +30,9 @@ async function getAll(req, res) {
 
 //hämta en todo
 async function get(req, res) {
+
     try {
-        let todoItem = await todoModel.getOneTodoItem()
+        let todoItem = await todoModel.getOneTodoItem(req.params.id);
 
         if (todoItem) {
             console.log(todoItem)
@@ -100,26 +101,11 @@ async function postList(req, res) {
 
     try {
         let result = await todoModel.postTodoList(todoList);
-        res.status(200).json(result);
+        res.status(201).json(result);
     } catch (err) {
         res.status(500).send('Internal Server Error');
     }
 }
-
-// async function get(req, res) {
-//     try {
-//         const todoItem = await todoModel.getOneTodoItem()
-
-//         if (todoItem) {
-//             console.log(todoItem)
-//             res.status(200).json(todoItem)
-//         } else {
-//             res.status(404).send('Not Found!')
-//         }
-//     } catch (err) {
-//         res.status(500).json(err)
-//     }
-// }
 
 //hämta alla listor
 async function getAllLists(req, res) {

@@ -144,7 +144,7 @@ describe("todoModel", () => {
         }
         await todoModel.postTodoItem(todo);
 
-        const deletedTodo = await todoModel.removeTodoItem("5");
+        const deletedTodo = await todoModel.removeTodoItem({_id: "5"});
 
         deletedTodo.should.equal(1);
     });
