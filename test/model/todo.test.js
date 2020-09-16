@@ -9,21 +9,15 @@ describe("todoModel", () => {
       await userModel.clearTestUsers();
       await todoModel.clearTestItems();
 
-      const user = await userModel.register("kurt", "pass", "writer");
+      const user = await userModel.register("kurt", "pass", "user");
       this.currentTest.userId = user._id;
       this.currentTest.password = user.password;
       this.currentTest.user = user;
-
-    //   const todo = await todoModel.postTodoItem("titel på en todo", "lite innehåll", false, false, "EpDqHRt6E28PKNJc");
-    //   this.currentTest.todoId = todo._id;
-    //   this.currentTest.createdBy = todo.createdBy;
-    //   this.currentTest.todo = todo;
     });
     
     it("Should create a complete todo item", async function() {
         const todo = {
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -34,7 +28,6 @@ describe("todoModel", () => {
         
         postTodo.should.deep.equal({
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -47,7 +40,6 @@ describe("todoModel", () => {
     it("Should get all todo items", async function() {
         const todo1 = {
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -57,7 +49,6 @@ describe("todoModel", () => {
 
         const todo2 = {
             title: "titel på en todo2",
-            content: "lite innehåll2",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -71,7 +62,6 @@ describe("todoModel", () => {
         getTodos.should.deep.equal([
             {
                 title: "titel på en todo",
-                content: "lite innehåll",
                 done: false,
                 urgent: false,
                 listId: "EpDqHRt6E28PKNJc",
@@ -80,7 +70,6 @@ describe("todoModel", () => {
             },
             {
                 title: "titel på en todo2",
-                content: "lite innehåll2",
                 done: false,
                 urgent: false,
                 listId: "EpDqHRt6E28PKNJc",
@@ -93,7 +82,6 @@ describe("todoModel", () => {
     it("Should update a todo item", async function() {
         const todo1 = {
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -103,8 +91,7 @@ describe("todoModel", () => {
         await todoModel.postTodoItem(todo1);
 
         const todo2 = {
-            title: "ny titel på en todo",
-            content: "lite mer innehåll"
+            title: "ny titel på en todo"
         }
         const updatedTodo = await todoModel.updateTodoItem("3", todo2);
 
@@ -114,7 +101,6 @@ describe("todoModel", () => {
     it("Should update a todo item", async function() {
         const todo1 = {
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",
@@ -124,8 +110,7 @@ describe("todoModel", () => {
         await todoModel.postTodoItem(todo1);
 
         const todo2 = {
-            title: "ny titel på en todo",
-            content: "lite mer innehåll"
+            title: "ny titel på en todo"
         }
         const updatedTodo = await todoModel.updateTodoItem("3", todo2);
 
@@ -135,7 +120,6 @@ describe("todoModel", () => {
     it("Should delete a todo item", async function() {
         const todo = {
             title: "titel på en todo",
-            content: "lite innehåll",
             done: false,
             urgent: false,
             listId: "EpDqHRt6E28PKNJc",

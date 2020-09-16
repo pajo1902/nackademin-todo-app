@@ -1,9 +1,3 @@
-//Modellen:
-//Database logic for creating a resource etc.
-//May return some data about the operation
-//or throw an exception if an error occurs
-//Do not use res or req
-
 const db = require('../database/dbSetup');
 const bcrypt = require('bcryptjs');
 const secret = process.env.secret;
@@ -23,17 +17,13 @@ async function register(username, password, role) {
 
 //logga in användaren
 async function login(data) {
-
-    let user = await db.users.findOne({ username: data.login.username });
+    const user = await db.users.findOne({ username: data.login.username });
 
     if (!user) {
         return {message: 'No user'}
     }
-    // console.log('usern som hittas ifrån databasen: ', user);
-
-    let passwordAttempt = data.login.password;
+    const passwordAttempt = data.login.password;
     const success = bcrypt.compareSync(passwordAttempt, user.password);
-    // console.log('success ifrån modellen: ', success);
 
     if (success) {
         const payload = {
@@ -44,7 +34,7 @@ async function login(data) {
         const token = jwt.sign(payload, secret, { expiresIn: '30d' });
         
         return {
-            user, //... om jag skriver så innan user så slipper jag skriver user.username för att få ut username.
+            user,
             token
         }
     } else {
@@ -54,15 +44,11 @@ async function login(data) {
 
 //hämta en användare
 async function getUser(id) {
-    // console.log('data ifrån modellen: ' + data);
     return await db.users.findOne({ _id: id });
-
-    // return username;
 }
 
 //ta bort en användare
 async function removeUser(id) {
-    // console.log('Removed User from model: ', id);
     return await db.users.remove({ _id: id });   
 }
 

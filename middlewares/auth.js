@@ -10,7 +10,6 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const user = jwt.verify(req.headers.authorization.replace("Bearer ", ""), secret)
-        console.log(user)
         req.user = user
         next()
     } catch (error) {
@@ -19,9 +18,8 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-const writer = (req, res, next) => {
-    console.log('ROLLEN: ', req.user.role)
-    if (req.user.role == 'admin' || req.user.role == 'writer') {
+const user = (req, res, next) => {
+    if (req.user.role === 'admin' || req.user.role === 'user') {
         next()
     } else {
         console.log("Du har inte behörighet!")
@@ -29,8 +27,7 @@ const writer = (req, res, next) => {
     }
 }
 const admin = (req, res, next) => {
-    console.log('ROLLEN: ', req.user.role)
-    if(req.user.role == 'admin'){
+    if(req.user.role === 'admin'){
         next()
     } else {
         console.log('Du har inte behörighet!')
@@ -41,5 +38,5 @@ const admin = (req, res, next) => {
 module.exports = {
     authMiddleware,
     admin,
-    writer
+    user
 };

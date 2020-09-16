@@ -7,10 +7,6 @@ const { expect, request } = chai;
 
 chai.should();
 
-const userModel = require('../.././models/userModel');
-const todoModel = require('../.././models/todoModel');
-const { items } = require('../../database/dbSetup');
-
 describe("For testing if API is RESTful", () => {
     it('Should create a user with a post request and then a get request to get it', async function() {
         const user = {
