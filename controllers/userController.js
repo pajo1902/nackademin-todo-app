@@ -8,9 +8,14 @@ async function register(req, res) {
         typeof req.body.password === 'string'
     ) {
         try {
+            let role;
+            if (!req.body.role) {
+                role = "user";
+            } else {
+                role = req.body.role;
+            }
             const username = req.body.username;
             const password = req.body.password;
-            let role = req.body.role;
 
             const result = await userModel.register(username, password, role);
             res.status(200).json(result);

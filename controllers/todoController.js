@@ -3,8 +3,6 @@ const todoModel = require('../models/todoModel.js');
 //skapa en ny todo
 async function post(req, res) {
     if (req.body.hasOwnProperty('title') &&
-        req.body.hasOwnProperty('done') &&
-        req.body.hasOwnProperty('urgent') &&
         req.body.hasOwnProperty('listId') &&
         typeof req.body.title === 'string',
         typeof req.body.done === Boolean,
@@ -14,10 +12,10 @@ async function post(req, res) {
         try {
             const todoItem = {
                 title: req.body.title, 
-                done: req.body.done, 
-                urgent: req.body.urgent,
+                done: false, 
+                urgent: false,
                 listId: req.body.listId,
-                createdBy: req.user._id 
+                createdBy: req.user._id
             }
 
             const result = await todoModel.postTodoItem(todoItem);
