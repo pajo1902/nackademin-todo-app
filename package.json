@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env ENVIRONMENT=test && mocha --recursive",
-    "dev": "nodemon start.js"
+    "start": "nodemon start.js"
   },
   "repository": {
     "type": "git",
