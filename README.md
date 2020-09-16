@@ -10,13 +10,12 @@ and enjoy!
 
 PS. There is no frontend at this moment. Using Postman is recommended. DS.
 
-- Register new user          http://localhost:3001/users/register
-- Login in user              http://localhost:3001/users/auth/login
-- Delete your user account   http://localhost:3001/users/remove/id
-- Get all your data          http://localhost:3001/users/getdata/id
-- Get all todo items         http://localhost:3001/items/all
-- Get one specific todo item http://localhost:3001/items/id
-- Create a new todo item     http://localhost:3001/items/create
-- Update a todo item         http://localhost:3001/items/update/id
-- Remove a todo item         http://localhost:3001/items/remove/id
-- Read about data policy     http://localhost:3001/privacypolicy
+- Register new user            POST http://localhost:3001/users/register
+- Login in user                POST http://localhost:3001/users/auth/login
+- Delete your user account   DELETE http://localhost:3001/users/id
+- Get all your data             GET http://localhost:3001/users/getdata/id
+- Get all todo items            GET http://localhost:3001/todos/
+- Get one specific todo item    GET http://localhost:3001/todos/id
+- Create a new todo item       POST http://localhost:3001/todos/
+- Update a todo item            PUT http://localhost:3001/todos/id
+- Remove a todo item         DELETE http://localhost:3001/todos/id
