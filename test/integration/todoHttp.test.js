@@ -8,7 +8,7 @@ const userModel = require('../.././models/userModel');
 const todoModel = require('../.././models/todoModel');
 const database = require('../../database/dbSetup')
 
-describe("For testing if API is RESTful", () => {
+describe("INTEGRATION TEST: For testing if API is RESTful", () => {
     before( async () => {
         await database.connect();
     });

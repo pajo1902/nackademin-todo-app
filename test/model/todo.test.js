@@ -7,7 +7,7 @@ const userModel = require("../../models/userModel");
 const todoModel = require("../../models/todoModel");
 const database = require('../../database/dbSetup')
 
-describe("todoModel", () => {
+describe("UNIT TEST: todoModel", () => {
     before( async () => {
         await database.connect();
     });
