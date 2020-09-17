@@ -46,16 +46,20 @@ describe("For testing if API is RESTful", () => {
 
         const postedTodo = await todoModel.postTodoItem(todo);
 
-        console.log("postedTodo: ", postedTodo)
+        // console.log("postedTodo: ", postedTodo)
 
         const todoId = postedTodo._id;
 
         request(app)
         .get(`/todos/${todoId}`)
         .set('Authorization', `Bearer ${this.test.token}`)
-        .end((err, res) => {
-            console.log(res.status);
-            console.log(err);
+        .set('Content-Type', 'application/json')
+        .then((err, res) => {
+            expect(res).to.be.json
+            expect(res).to.have.status(200)
+            expect(res.body).to.include({
+                title: postedTodo.title,
+            })
         });
     });
 });

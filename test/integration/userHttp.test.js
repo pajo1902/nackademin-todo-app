@@ -17,13 +17,22 @@ describe("For testing if API is RESTful", () => {
 
         request(app)
         .post('/users/register')
-        // .set('Authorization', `Bearer ${this.test.token}`)
+        .set('Content-Type', 'application/json')
         .send(user)
-        .end((err, res) => {
-            // console.log(res.status);
-            // console.log("RES: ", res);
-            expect(res.status)
-            .to.equal(200)
+        .then((err, res) => {
+            expect(res).to.have.status(200)
         });
+
+        // request(app)
+        // .get(`/todos/${todoId}`)
+        // .set('Authorization', `Bearer ${this.test.token}`)
+        // .set('Content-Tyoe', 'application/json')
+        // .then((err, res) => {
+        //     expect(res).to.be.json
+        //     expect(res).to.have.status(200)
+        //     expect(res.body).to.include({
+        //         title: postedTodo.title,
+        //     })
+        // });
     });
 });
