@@ -20,6 +20,7 @@ async function post(req, res) {
 
             const result = await todoModel.postTodoItem(todoItem);
             res.status(200).json(result);
+            // console.log("Result:")
         } catch (err) {
             res.status(500).send('Internal Server Error');
         }

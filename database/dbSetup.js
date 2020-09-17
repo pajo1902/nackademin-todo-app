@@ -1,53 +1,45 @@
 const Datastore = require("nedb-promises");
+const mongoose = require('mongoose')
 require("dotenv").config();
 
-let db = {};
+console.log("ENV: ", process.env.ENVIRONMENT)
 
-// let postCollection, userCollection, testDb;
 switch (process.env.ENVIRONMENT) {
-  case "development":
-    db.lists = Datastore.create('database/lists');
-    db.items = Datastore.create('database/items');
-    db.users = Datastore.create('database/users');
-
-    db.lists.load();
-    db.items.load();
-    db.users.load();
-    
+  case 'development':
+  case 'test':
+    const {MongoMemoryServer} = require('mongodb-memory-server')
+    mongoDatabase = new MongoMemoryServer()
+    console.log("PRecis innan connect!");
+    connect();
     break;
-
-  case "test":
-    db.lists = Datastore.create('database/lists_test');
-    db.items = Datastore.create('database/items_test');
-    db.users = Datastore.create('database/users_test');
-
-    db.lists.load();
-    db.items.load();
-    db.users.load();
-
-    //för att rensa hela testdatabasen inför testen
-    // db.items.remove({});
-    // db.users.remove({});
-
+  case 'production':
+  case 'staging':
+    mongoDatabase = {
+      getUri: async () => 
+        `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
+        // mongodb+srv://dbUser:<password>@cluster0.o0z1n.mongodb.net/<dbname>?retryWrites=true&w=majority
+      }
     break;
 }
 
-module.exports = db;
+async function connect(){
+    
+  let uri = await mongoDatabase.getUri()
 
-//gamla versionen
-// const Datastore = require('nedb-promises');
-// let db = {};
-// db.lists = Datastore.create('database/lists');
-// db.items = Datastore.create('database/items');
-// db.users = Datastore.create('database/users');
-// db.todoTests = Datastore.create('database/todo_test');
-// db.userTests = Datastore.create('database/user_test');
-// // db.items = Datastore.create('database/items');
-// db.lists.load();
-// db.items.load();
-// db.users.load();
-// db.todoTests.load();
-// db.userTests.load();
-// // db.comments.load()
+  await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+  })
+}
 
-// module.exports = db;
+async function disconnect(){
+  await mongoDatabase.stop()
+  await mongoose.disconnect()
+}
+
+
+module.exports = {
+  connect, disconnect
+}

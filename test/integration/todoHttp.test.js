@@ -2,20 +2,26 @@ const app = require('../../app');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-
 const { expect, request } = chai;
-
 chai.should();
-
 const userModel = require('../.././models/userModel');
 const todoModel = require('../.././models/todoModel');
+const database = require('../../database/dbSetup')
 
 describe("For testing if API is RESTful", () => {
+    before( async () => {
+        await database.connect();
+    });
+
+    after( async () => {
+        await database.disconnect();
+    });
+
     beforeEach(async function() {
         await userModel.clearTestUsers();
         await todoModel.clearTestItems();
 
-        await userModel.register("patrik", "pass", "user");
+        await userModel.register("patrik", "pass");
 
         const login = await userModel.login({
             login: {
@@ -34,12 +40,13 @@ describe("For testing if API is RESTful", () => {
         const todo = {
             title: "titel på en todo",
             done: false,
-            urgent: false,
             listId: "EpDqHRt6E28PKNJc",
-            createdBy: this.test.userId
+            createdBy: this.test.userId,
         };
 
         const postedTodo = await todoModel.postTodoItem(todo);
+
+        console.log("postedTodo: ", postedTodo)
 
         const todoId = postedTodo._id;
 
@@ -47,9 +54,8 @@ describe("For testing if API is RESTful", () => {
         .get(`/todos/${todoId}`)
         .set('Authorization', `Bearer ${this.test.token}`)
         .end((err, res) => {
-            console.log("Här:")
             console.log(res.status);
-            console.log("Slut")
+            console.log(err);
         });
     });
 });

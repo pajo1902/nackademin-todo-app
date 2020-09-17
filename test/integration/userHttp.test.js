@@ -20,7 +20,7 @@ describe("For testing if API is RESTful", () => {
         // .set('Authorization', `Bearer ${this.test.token}`)
         .send(user)
         .end((err, res) => {
-            console.log(res.status);
+            // console.log(res.status);
             // console.log("RES: ", res);
             expect(res.status)
             .to.equal(200)

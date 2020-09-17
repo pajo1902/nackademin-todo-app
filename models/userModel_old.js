@@ -1,17 +1,10 @@
 // const db = require('../database/dbSetup');
 const mongoose = require('mongoose')
 require('dotenv').config()
+
 const bcrypt = require('bcryptjs');
 const secret = process.env.secret;
 const jwt = require('jsonwebtoken');
-
-const userSchema = new mongoose.Schema({
-    username: {type: String, unique: true },
-    password: String,
-    role: String
-});
-
-const User = mongoose.model('User', userSchema);
 
 //registrera en användare
 async function register(username, password, role) {
@@ -22,23 +15,13 @@ async function register(username, password, role) {
         password : hashPass,
         role : role
     }
-    console.log(user)
-    try {
-        const createdUser = await User.create(user);
-        //(await User.findById(_id).exec())._doc
-        // console.log(createdUser);
-        return createdUser._doc;
-    } catch (error) {
-        // console.log(error)
-        return error;
-        
-    }
-    
+    // return db.users.insert(user);
+    return 
 }
 
 //logga in användaren
 async function login(data) {
-    const user = await User.findOne({ username: data.login.username });
+    const user = await db.users.findOne({ username: data.login.username });
 
     if (!user) {
         return {message: 'No user'}
@@ -65,17 +48,17 @@ async function login(data) {
 
 //hämta en användare
 async function getUser(id) {
-    return await User.findOne({ _id: id });
+    return await db.users.findOne({ _id: id });
 }
 
 //ta bort en användare
 async function removeUser(id) {
-    return await db.users.deleteOne({ _id: id });   
+    return await db.users.remove({ _id: id });   
 }
 
 //ta bort alla test-användare
 async function clearTestUsers() {
-    return await User.deleteMany({});
+    return await db.users.remove({}, { multi: true });
 }
 
 module.exports = {

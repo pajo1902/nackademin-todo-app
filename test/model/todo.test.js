@@ -1,10 +1,21 @@
 const chai = require("chai");
 chai.should();
+const { expect } = chai;
+
 
 const userModel = require("../../models/userModel");
 const todoModel = require("../../models/todoModel");
+const database = require('../../database/dbSetup')
 
 describe("todoModel", () => {
+    before( async () => {
+        await database.connect();
+    });
+
+    after( async () => {
+        await database.disconnect();
+    });
+    
     beforeEach(async function() {
       await userModel.clearTestUsers();
       await todoModel.clearTestItems();
@@ -18,118 +29,81 @@ describe("todoModel", () => {
     it("Should create a complete todo item", async function() {
         const todo = {
             title: "titel på en todo",
-            done: false,
-            urgent: false,
-            listId: "EpDqHRt6E28PKNJc",
-            createdBy: this.test.user._id,
-            _id: "1"
-        }
-        const postTodo = await todoModel.postTodoItem(todo);
-        
-        postTodo.should.deep.equal({
-            title: "titel på en todo",
-            done: false,
-            urgent: false,
             listId: "EpDqHRt6E28PKNJc",
             createdBy: this.test.userId,
-            _id: "1"
-        });
-        todo.should.be.an("object");
+        }
+        const resTodo = await todoModel.postTodoItem(todo);
+        
+        expect(
+            resTodo.title, 
+            resTodo.listId, 
+            resTodo.createdBy
+        )
+        .to.be.equal(
+            todo.title, 
+            todo.listId, 
+            todo.createdBy
+        );
+
+        resTodo.should.be.an("object");
     });
 
     it("Should get all todo items", async function() {
         const todo1 = {
-            title: "titel på en todo",
-            done: false,
-            urgent: false,
+            title: "titel på en todo1",
             listId: "EpDqHRt6E28PKNJc",
             createdBy: this.test.user._id,
-            _id: "1"
         }
 
         const todo2 = {
             title: "titel på en todo2",
-            done: false,
-            urgent: false,
             listId: "EpDqHRt6E28PKNJc",
             createdBy: this.test.user._id,
-            _id: "2"
         }
         await todoModel.postTodoItem(todo1);
         await todoModel.postTodoItem(todo2);
 
-        const getTodos = await todoModel.getAllTodoItems(this.test.user._id);
-        getTodos.should.deep.equal([
-            {
-                title: "titel på en todo",
-                done: false,
-                urgent: false,
-                listId: "EpDqHRt6E28PKNJc",
-                createdBy: this.test.user._id,
-                _id: "1"
-            },
-            {
-                title: "titel på en todo2",
-                done: false,
-                urgent: false,
-                listId: "EpDqHRt6E28PKNJc",
-                createdBy: this.test.user._id,
-                _id: "2"
-            } 
-        ]);
+        const resTodos = await todoModel.getAllTodoItems(this.test.user._id);
+        // console.log("restTODOS", resTodos[0].title);
+        expect(
+            resTodos[0].title, resTodos[0].listId, resTodos[0].createdBy,
+            resTodos[1].title, resTodos[1].listId, resTodos[1].createdBy,
+            )
+            .to.be.equal(
+                todo1.title, todo1.listId, todo1.createdBy,
+                todo2.title, todo2.listId, todo2.createdBy, 
+            );
     });
 
     it("Should update a todo item", async function() {
         const todo1 = {
             title: "titel på en todo",
-            done: false,
-            urgent: false,
             listId: "EpDqHRt6E28PKNJc",
             createdBy: this.test.user._id,
-            _id: "3"
         }
-        await todoModel.postTodoItem(todo1);
+        const todo = await todoModel.postTodoItem(todo1);
+        const todoId = todo._id;
 
         const todo2 = {
             title: "ny titel på en todo"
         }
-        const updatedTodo = await todoModel.updateTodoItem("3", todo2);
+        const resTodo = await todoModel.updateTodoItem(todoId, todo2);
+        // console.log("RESPONSE: ", resTodo);
 
-        updatedTodo.should.deep.equal(1);
-    });
-
-    it("Should update a todo item", async function() {
-        const todo1 = {
-            title: "titel på en todo",
-            done: false,
-            urgent: false,
-            listId: "EpDqHRt6E28PKNJc",
-            createdBy: this.test.user._id,
-            _id: "3"
-        }
-        await todoModel.postTodoItem(todo1);
-
-        const todo2 = {
-            title: "ny titel på en todo"
-        }
-        const updatedTodo = await todoModel.updateTodoItem("3", todo2);
-
-        updatedTodo.should.equal(1);
+        resTodo.nModified.should.deep.equal(1);
     });
 
     it("Should delete a todo item", async function() {
         const todo = {
             title: "titel på en todo",
-            done: false,
-            urgent: false,
             listId: "EpDqHRt6E28PKNJc",
             createdBy: this.test.user._id,
-            _id: "5"
         }
-        await todoModel.postTodoItem(todo);
+        const resTodo = await todoModel.postTodoItem(todo);
 
-        const deletedTodo = await todoModel.removeTodoItem({_id: "5"});
+        const resDelete = await todoModel.removeTodoItem({_id: resTodo._id});
+        console.log("RESPONSE: ", resDelete);
 
-        deletedTodo.should.equal(1);
+        resDelete.deletedCount.should.equal(1);
     });
 });

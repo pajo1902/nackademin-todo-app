@@ -1,18 +1,32 @@
-const db = require('../database/dbSetup');
+const mongoose = require('mongoose')
+require('dotenv').config()
+
+//behöver jag lägga till role här? funkar detta trots att jag redan skapat ett schema i cloud atlas
+const todoSchema = new mongoose.Schema({
+    title: String,
+    done: Boolean,
+    urgent: Boolean,
+    listId: String,
+    createdBy: String
+});
+
+const Todo = mongoose.model('Todo', todoSchema);
 
 //skapa en todo
 async function postTodoItem(todoItem) {
-    return await db.items.insert(todoItem);
+    const todo = await Todo.create(todoItem);
+    console.log("TODO: ", todo);
+    return todo._doc;
 }
 
 //hämta en todo
 async function getOneTodoItem(id) {
-    return await db.items.findOne({ _id: id });
+    return await Todo.findOne({ _id: id });
 }
 
 //hämta alla todos
 async function getAllTodoItems(id) {
-    let result = await db.items.find({ createdBy: id });
+    let result = await Todo.find({ createdBy: id });
     return result;
 }
 
@@ -20,17 +34,17 @@ async function getAllTodoItems(id) {
 async function updateTodoItem(id, todoItem) {
     const { title, done, urgent } = todoItem;
 
-    return await db.items.update( {_id: id}, { $set: { title, done, urgent }});
+    return await Todo.updateOne( {_id: id}, { title, done, urgent });
 }
 
 //ta bort en todo
 async function removeTodoItem(id) {
-    return await db.items.remove(id, { multi: true });
+    return await Todo.deleteMany(id);
 }
 
 //rensa alla test todos
 async function clearTestItems() {
-    return await db.items.remove({}, { multi: true });
+    return await Todo.deleteMany({});
 }
 
 module.exports = {

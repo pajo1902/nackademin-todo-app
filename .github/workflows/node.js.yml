@@ -29,3 +29,9 @@ jobs:
       env: 
         secret: hemligt
         ENVIRONMENT: development
+        DB_USER: dbUSER
+        DB_PASS: smurf
+        DB_HOST: cluster0.o0z1n.mongodb.net
+        DB_NAME: todoDB
+        secret: hemligt
+        ENVIRONMENT: development
