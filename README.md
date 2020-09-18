@@ -2,9 +2,10 @@
 
 1. npm i in terminal
 2. create a new .env-file with a secret
-3. nodemon app.js in terminal
-4. register new users with either admin or writer as roles
-5. create new items
+3. npm start in terminal
+4. register new user
+5. create new lists
+6. create new items
 
 and enjoy!
 
@@ -19,3 +20,5 @@ PS. There is no frontend at this moment. Using Postman is recommended. DS.
 - Create a new todo item       POST http://localhost:3001/todos/
 - Update a todo item            PUT http://localhost:3001/todos/id
 - Remove a todo item         DELETE http://localhost:3001/todos/id
+
+- Read about privacy policy     GET http://localhost:3001/privacypolicy/
