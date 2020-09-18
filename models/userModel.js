@@ -15,25 +15,21 @@ const User = mongoose.model('User', userSchema);
 
 //registrera en användare
 async function register(username, password, role) {
-    const salt = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(password, salt)
-    const user = {
-        username : username,
-        password : hashPass,
-        role : role
-    }
-    console.log(user)
     try {
+        const salt = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(password, salt);
+        const user = {
+            username : username,
+            password : hashPass,
+            role : role
+        }
+        console.log(user);
+
         const createdUser = await User.create(user);
-        //(await User.findById(_id).exec())._doc
-        // console.log(createdUser);
         return createdUser._doc;
     } catch (error) {
-        // console.log(error)
-        return error;
-        
+        return error; 
     }
-    
 }
 
 //logga in användaren
