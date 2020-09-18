@@ -13,10 +13,12 @@ app.use(cors()); //detta aktiverar middleware som sätter headers
 const listRoute = require('./routes/listRoute');
 const todoRoute = require('./routes/todoRoute');
 const userRoute = require('./routes/userRoute');
+const gdprRoute = require('./routes/gdprRoute');
 
 app.use('/lists', listRoute);
 app.use('/todos', todoRoute);
 app.use('/users', userRoute);
+app.use('/privacypolicy', gdprRoute);
 // app.use('/privacypolicy', userRoute);
 
 module.exports = app;
