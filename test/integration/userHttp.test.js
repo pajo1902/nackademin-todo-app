@@ -17,7 +17,7 @@ describe("INTEGRATION TEST: For testing if API is RESTful", () => {
         await database.disconnect();
     });
 
-    it('Should create a user with a post request and then a get request to get it', async function() {
+    it('Should create a user with a post request and then a get request to get it', function(done) {
         const user = {
             username: "karl",
             password: "pass",
@@ -28,8 +28,9 @@ describe("INTEGRATION TEST: For testing if API is RESTful", () => {
         .post('/users/register')
         .set('Content-Type', 'application/json')
         .send(user)
-        .then((err, res) => {
+        .then((res) => {
             expect(res).to.have.status(200)
+            done()
         });
 
         // request(app)

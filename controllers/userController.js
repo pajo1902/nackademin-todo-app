@@ -21,7 +21,7 @@ async function register(req, res) {
             console.log("password: ", role)
 
             const result = await userModel.register(username, password, role);
-            console.log("Result: ", result)
+            // console.log("Result: ", result)
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json(error);

@@ -55,7 +55,7 @@ describe("INTEGRATION TEST: For testing if API is RESTful", () => {
         .set('Authorization', `Bearer ${this.test.token}`)
         .set('Content-Type', 'application/json')
         .then((err, res) => {
-            expect(res).to.be.json
+            // expect(res).to.be.json
             expect(res).to.have.status(200)
             expect(res.body).to.include({
                 title: postedTodo.title,
