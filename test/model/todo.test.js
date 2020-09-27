@@ -64,7 +64,6 @@ describe("UNIT TEST: todoModel", () => {
         await todoModel.postTodoItem(todo2);
 
         const resTodos = await todoModel.getAllTodoItems(this.test.user._id);
-        // console.log("restTODOS", resTodos[0].title);
         expect(
             resTodos[0].title, resTodos[0].listId, resTodos[0].createdBy,
             resTodos[1].title, resTodos[1].listId, resTodos[1].createdBy,
@@ -88,7 +87,6 @@ describe("UNIT TEST: todoModel", () => {
             title: "ny titel på en todo"
         }
         const resTodo = await todoModel.updateTodoItem(todoId, todo2);
-        // console.log("RESPONSE: ", resTodo);
 
         resTodo.nModified.should.deep.equal(1);
     });
@@ -102,7 +100,6 @@ describe("UNIT TEST: todoModel", () => {
         const resTodo = await todoModel.postTodoItem(todo);
 
         const resDelete = await todoModel.removeTodoItem({_id: resTodo._id});
-        console.log("RESPONSE: ", resDelete);
 
         resDelete.deletedCount.should.equal(1);
     });

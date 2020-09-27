@@ -1,4 +1,3 @@
-// const db = require('../database/dbSetup');
 const mongoose = require('mongoose')
 require('dotenv').config()
 const bcrypt = require('bcryptjs');
@@ -13,7 +12,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-//registrera en användare
 async function register(username, password, role) {
     try {
         const salt = bcrypt.genSaltSync(10);
@@ -32,7 +30,6 @@ async function register(username, password, role) {
     }
 }
 
-//logga in användaren
 async function login(data) {
     const user = await User.findOne({ username: data.login.username });
 
@@ -59,19 +56,31 @@ async function login(data) {
     }
 }
 
-//hämta en användare
 async function getUser(id) {
-    return await User.findOne({ _id: id });
+    try {
+        const user = await User.findOne({ _id: id });
+        return user;
+    } catch (error) {
+        return error
+    }
 }
 
-//ta bort en användare
 async function removeUser(id) {
-    return await db.users.deleteOne({ _id: id });   
+    try {
+        const deleted = await db.users.deleteOne({ _id: id });
+        return deleted;
+    } catch (error) {
+        return error;
+    }
 }
 
-//ta bort alla test-användare
 async function clearTestUsers() {
-    return await User.deleteMany({});
+    try {
+        const deleted = await User.deleteMany({});
+        return deleted;
+    } catch (error) {
+        return error
+    }
 }
 
 module.exports = {

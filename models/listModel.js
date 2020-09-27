@@ -8,19 +8,31 @@ const listSchema = new mongoose.Schema({
 
 const List = mongoose.model('List', listSchema);
 
-//skapa en lista
 async function postTodoList(todoList) {
-    return await List.create(todoList);
+    try {
+        const list = await List.create(todoList);
+        return list;
+    } catch (error) {
+        return error;
+    }
 }
 
-//hämta alla listor
 async function getAllTodoLists(userId) {
-    return await List.find({ createdBy: userId});
+    try {
+        const lists = await List.find({ createdBy: userId});
+        return lists;
+    } catch (error) {
+        return error;
+    }
 }
 
-//ta bort en lista
 async function removeList(id) {
-    return await List.deleteMany(id);
+    try {
+        const deleted = await List.deleteMany(id);
+        return deleted;
+    } catch (error) {
+        return error;
+    }
 }
 
 module.exports = {
