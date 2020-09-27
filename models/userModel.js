@@ -21,7 +21,6 @@ async function register(username, password, role) {
             password : hashPass,
             role : role
         }
-        console.log(user);
 
         const createdUser = await User.create(user);
         return createdUser._doc;

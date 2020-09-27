@@ -7,9 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(cors()); //detta aktiverar middleware som sätter headers
+app.use(cors());
 
-//routes
 const listRoute = require('./routes/listRoute');
 const todoRoute = require('./routes/todoRoute');
 const userRoute = require('./routes/userRoute');
@@ -19,6 +18,5 @@ app.use('/lists', listRoute);
 app.use('/todos', todoRoute);
 app.use('/users', userRoute);
 app.use('/privacypolicy', gdprRoute);
-// app.use('/privacypolicy', userRoute);
 
 module.exports = app;

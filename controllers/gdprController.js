@@ -42,7 +42,7 @@ async function remove(req, res) {
 }
 
 async function privacypolicy(req, res) {
-    //här ska det finnas privacy policy
+    //privacy policy content
 };
 
 module.exports = {

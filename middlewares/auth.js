@@ -13,7 +13,6 @@ const authMiddleware = (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
-        console.error(error)
         res.sendStatus(401)
     }
 }
@@ -22,7 +21,6 @@ const user = (req, res, next) => {
     if (req.user.role === 'admin' || req.user.role === 'user') {
         next()
     } else {
-        console.log("Du har inte behörighet!")
         return res.sendStatus(401)
     }
 }
@@ -30,7 +28,6 @@ const admin = (req, res, next) => {
     if(req.user.role === 'admin'){
         next()
     } else {
-        console.log('Du har inte behörighet!')
         return res.sendStatus(401)
     }
 }

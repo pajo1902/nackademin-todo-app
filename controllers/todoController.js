@@ -53,7 +53,7 @@ async function getAll(req, res) {
 
 async function put(req, res) {
     try {
-        const result = await todoModel.updateTodoItem(req.params.id, req.body);
+        await todoModel.updateTodoItem(req.params.id, req.body);
         res.send('Dude you have updated a todo!');
     } catch (error) {
         res.status(500).json(err);
