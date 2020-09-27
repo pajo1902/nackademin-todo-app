@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-//behöver jag lägga till role här? funkar detta trots att jag redan skapat ett schema i cloud atlas
 const todoSchema = new mongoose.Schema({
     title: String,
     done: Boolean,
@@ -12,39 +11,59 @@ const todoSchema = new mongoose.Schema({
 
 const Todo = mongoose.model('Todo', todoSchema);
 
-//skapa en todo
 async function postTodoItem(todoItem) {
-    const todo = await Todo.create(todoItem);
-    console.log("TODO: ", todo);
-    return todo._doc;
+    try {
+        const todo = await Todo.create(todoItem);
+        return todo._doc;
+    } catch (error) {
+        return error;
+    }
 }
 
-//hämta en todo
 async function getOneTodoItem(id) {
-    return await Todo.findOne({ _id: id });
+    try {
+        const todo = await Todo.findOne({ _id: id });
+        return todo;
+    } catch (error) {
+        return error;
+    }
 }
 
-//hämta alla todos
 async function getAllTodoItems(id) {
-    let result = await Todo.find({ createdBy: id });
-    return result;
+    try {
+        let todos = await Todo.find({ createdBy: id });
+        return todos;
+    } catch (error) {
+        return error;
+    }
 }
 
-//uppdatera en todo
 async function updateTodoItem(id, todoItem) {
-    const { title, done, urgent } = todoItem;
-
-    return await Todo.updateOne( {_id: id}, { title, done, urgent });
+    try {
+        const { title, done, urgent } = todoItem;
+        const todo = await Todo.updateOne( {_id: id}, { title, done, urgent });
+        return todo;
+    } catch (error) {
+        return error;
+    }
 }
 
-//ta bort en todo
 async function removeTodoItem(id) {
-    return await Todo.deleteMany(id);
+    try {
+        const deleted = await Todo.deleteMany(id);
+        return deleted;
+    } catch (error) {
+        return error;
+    }
 }
 
-//rensa alla test todos
 async function clearTestItems() {
-    return await Todo.deleteMany({});
+    try {
+        const deleted = await Todo.deleteMany({});
+        return deleted;
+    } catch (error) {
+        return error;
+    }
 }
 
 module.exports = {

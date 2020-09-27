@@ -5,36 +5,30 @@ const { expect } = chai;
 const userModel = require("../../models/userModel");
 const database = require('../../database/dbSetup')
 
-describe("userModel", () => {
+describe("UNIT TEST: userModel", () => {
   before( async () => {
     await database.connect();
   });
 
   after( async () => {
-      await database.disconnect();
+    await userModel.clearTestUsers();
+    await database.disconnect();
   });
 
-  beforeEach(async function() {
-    const user = await userModel.register("kurt", "pass", "user");
-    this.currentTest.userId = user._id;
-    this.currentTest.username = user.username;
-    this.currentTest.password = user.password;
-    this.currentTest.role = user.role;
-    this.currentTest.user = user;
-  });
-  
   it("Check if user object has correct keys", async function() {
+    const resUser = await userModel.register("janne", "pass", "user");
+    
     const user = {
-      username: "kurt",
+      username: "janne",
       password: this.test.password,
       role: "user",
-      _id: this.test.userId
+      _id: resUser._id
     }
     expect(
-      this.test.username, 
-      this.test.password, 
-      this.test.role, 
-      this.test.userId
+      resUser.username, 
+      resUser.password, 
+      resUser.role, 
+      resUser._id
     )
     .to.be.equal(
         user.username, 
@@ -43,6 +37,6 @@ describe("userModel", () => {
         user._id
     );
 
-    this.test.user.should.be.an("object");
+    resUser.should.be.an("object");
   });
 });

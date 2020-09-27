@@ -1,6 +1,5 @@
 const todoModel = require('../models/todoModel.js');
 
-//skapa en ny todo
 async function post(req, res) {
     if (req.body.hasOwnProperty('title') &&
         req.body.hasOwnProperty('listId') &&
@@ -20,7 +19,6 @@ async function post(req, res) {
 
             const result = await todoModel.postTodoItem(todoItem);
             res.status(200).json(result);
-            // console.log("Result:")
         } catch (err) {
             res.status(500).send('Internal Server Error');
         }
@@ -29,14 +27,11 @@ async function post(req, res) {
     }
 }
 
-//hämta en todo
 async function get(req, res) {
-
     try {
         let todoItem = await todoModel.getOneTodoItem(req.params.id);
 
         if (todoItem) {
-            console.log(todoItem)
             res.status(200).json(todoItem)
         } else {
             res.status(404).send('Not Found!')
@@ -46,7 +41,6 @@ async function get(req, res) {
     }
 }
 
-//hämta alla todos
 async function getAll(req, res) {
     try {
         const user = req.user._id;
@@ -57,23 +51,21 @@ async function getAll(req, res) {
     }
 }
 
-//uppdatera en todo
 async function put(req, res) {
     try {
         const result = await todoModel.updateTodoItem(req.params.id, req.body);
-        res.send('Du har uppdaterat ett item ' + result);
+        res.send('Dude you have updated a todo!');
     } catch (error) {
         res.status(500).json(err);
     }
 }
 
-//ta bort en todo
 async function remove(req, res) {
     const todoItem = req.params.id;
     const deletedItem = await todoModel.removeTodoItem({_id: todoItem});
 
     if (deletedItem === 0) {
-        res.status(404).send('Not Found')
+        res.status(404).send('Not Found');
     } else if (deletedItem === 1) {
         res.status(200).send('OK');
     } else {

@@ -1,6 +1,5 @@
 const userModel = require('../models/userModel.js');
 
-//registrera ny användare
 async function register(req, res) {
     if (req.body.hasOwnProperty('username') &&
         req.body.hasOwnProperty('password') &&
@@ -16,12 +15,8 @@ async function register(req, res) {
             }
             const username = req.body.username;
             const password = req.body.password;
-            console.log("username: ", username)
-            console.log("password: ", password)
-            console.log("password: ", role)
 
             const result = await userModel.register(username, password, role);
-            // console.log("Result: ", result)
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json(error);
@@ -31,7 +26,6 @@ async function register(req, res) {
     }
 }
 
-//logga in användaren
 async function login(req, res) {
     try {
         const login = req.body;
